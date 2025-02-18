@@ -9,7 +9,7 @@ on:
 
 jobs:
   run:
-    uses: ticketsbot-de/template/.github/workflows/template.yaml@main
+    uses: luwanio/template/.github/workflows/template.yaml@main
     permissions:
       contents: read
       packages: write
