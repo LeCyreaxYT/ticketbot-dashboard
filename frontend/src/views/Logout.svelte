@@ -14,7 +14,7 @@
       }
 
       clearLocalStorage()
-      window.location.href = 'https://ticketbot.luwan.io'
+      window.location.href = 'https://dashboard.ticketsbot.de'
   }
 
   process()
