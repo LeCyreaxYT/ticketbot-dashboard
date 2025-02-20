@@ -118,7 +118,7 @@
     import { setDefaultHeaders } from "../includes/Auth.svelte";
     import { notify, notifyError, notifySuccess } from "../js/util";
     import axios from "axios";
-    import { API_URL } from "../js/constants";
+    import { IMPORT_URL } from "../js/constants";
     setDefaultHeaders();
 
     export let currentRoute;
@@ -164,13 +164,13 @@
             if (queryLoading) {
                 notify(
                     "Importing...",
-                    "Your data is taking longer than expected to import, you can safely navigate away from this page and check back later.",
+                    "Your data is taking longer than expected to import, if you uploaded transcripts, please wait until you get an import successful message before navigating away from this page.",
                 );
             }
         }, 60 * 1000);
 
         if (transcriptFileInput.files.length > 0) {
-            const presignRes = await axios.get(`${API_URL}/api/${guildId}/import/presign`);
+            const presignRes = await axios.get(`${IMPORT_URL}/api/${guildId}/import/presign?file_size=${transcriptFileInput.files[0].size}`);
             if (presignRes.status !== 200) {
                 notifyError(`Failed to upload transcripts: ${presignRes.data.error}`);
                 queryLoading = false;
@@ -189,12 +189,14 @@
                     queryLoading = false;
                     return;
                 }
+
+                notifySuccess("Transcripts uploaded successfully");
             });
         }
 
         if (dataFileInput.files.length > 0) {
             const res = await axios.post(
-                `${API_URL}/api/${guildId}/import`,
+                `${IMPORT_URL}/api/${guildId}/import`,
                 frmData,
                 {
                     headers: {
